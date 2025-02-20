@@ -4,7 +4,7 @@ from .models import Device
 class DeviceForm(forms.ModelForm):
     class Meta:
         model = Device
-        fields = '__all__'
+        fields = ['name', 'functions', 'status']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': "Input device's name"}),
             'functions': forms.TextInput(attrs={'placeholder': "Input device's function"}),  

@@ -5,7 +5,7 @@ from datetime import datetime
 # Create your models here.
 
 class Device(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=100)
     functions = models.TextField(blank=True, null=True)  
     status = models.BooleanField(default=False)

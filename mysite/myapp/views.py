@@ -11,7 +11,7 @@ from .models import Eventlog
 from django.utils.timezone import now
 
 
-# Create your views here.
+
 @login_required
 def devices_list(request):
     devices = Device.objects.filter(user=request.user)  
@@ -34,20 +34,23 @@ def add_device(request):
         form = DeviceForm(request.POST)
         if form.is_valid():
             device = form.save(commit=False)
-            device.user = request.user
-            device.save() 
-            return redirect('devices_list')  
-    else:
-        form = DeviceForm()  
+            device.user = request.user  
+            device.save()
+            return redirect('devices_list')
+        else:
+            return JsonResponse({"success": False, "error": form.errors}, status=400)
 
+    form = DeviceForm()
     return render(request, 'add_device.html', {'form': form})
 
+
+@login_required 
 def delete_device(request, pk):
     if request.method == 'POST':
-        device = get_object_or_404(Device, pk=pk)
+        device = get_object_or_404(Device, pk=pk, user=request.user)  
         device.delete()
-        return JsonResponse({'succes': True})
-    return JsonResponse({'success': False, 'error': 'Invalid request'}, status = 400)
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
 
 def toggle_device_status(request, device_id):
     
@@ -84,4 +87,3 @@ def event_log(request):
     logs = Eventlog.objects.order_by('-timestamp')[:50]  
     print(logs)  
     return render(request, 'event_log.html', {'logs': logs})
-
