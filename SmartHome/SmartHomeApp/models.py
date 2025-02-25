@@ -26,8 +26,8 @@ class Device(models.Model):
 
 class LogRow(models.Model):
     on_timestamp = models.DateTimeField(auto_now_add=True)
-    device = models.ForeignKey(Device, on_delete=models.DO_NOTHING)
-    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     power_in_watts = models.PositiveSmallIntegerField(null=False, blank=False)
     off_timestamp = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     time_in_seconds = models.IntegerField(null=False, blank=False)
